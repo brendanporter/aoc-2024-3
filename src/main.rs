@@ -24,7 +24,7 @@ fn multiply(input: &str) -> i32 {
 
     let mut results = vec![];
     for (_, [path, line_no, line]) in re.captures_iter(input).map(|c| c.extract()) {
-        results.push((path, line_no.parse::<u64>(), line));
+        results.push((path, line_no.parse::<u64>().unwrap(), line));
     }
 
     for result in results {
