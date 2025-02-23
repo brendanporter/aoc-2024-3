@@ -11,8 +11,8 @@ fn main() {
 
     let mut product: i32 = 0;
 
-    contents =
-        "xmul(2,4)%&mul[3,7]!@^do_not_mul(5,5)+mul(32,64]then(mul(11,8)mul(8,5))".to_string();
+    // contents =
+    // "xmul(2,4)%&mul[3,7]!@^do_not_mul(5,5)+mul(32,64]then(mul(11,8)mul(8,5))".to_string();
 
     for line in contents.lines() {
         product += multiply(line);
@@ -23,22 +23,20 @@ fn main() {
 
 fn multiply(input: &str) -> i32 {
     // find all regex matches for
-    let re = Regex::new(r"mut\((\d{1,3})\,(\d{1,3})\)").unwrap();
+    let re = Regex::new(r"mul\((\d{1,3})\,(\d{1,3})\)").unwrap();
 
-    let mut results = vec![];
+    // let mut results = vec![];
+    let mut product: i32 = 0;
     for (_, [num1, num2]) in re.captures_iter(input).map(|c| c.extract()) {
-        dbg!(num1);
-        dbg!(num2);
-        results.push((num1, num2));
+        // dbg!(num1);
+        // dbg!(num2);
+        product += num1.parse::<i32>().unwrap() * num2.parse::<i32>().unwrap();
+        // results.push((num1, num2));
     }
 
-    dbg!(&results);
+    // dbg!(&results);
 
-    for result in results {
-        dbg!(result);
-    }
-
-    return 0;
+    return product;
 }
 
 #[cfg(test)]
