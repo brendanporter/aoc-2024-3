@@ -12,26 +12,26 @@ fn main() {
     let mut product: i32 = 0;
 
     for line in contents.lines() {
-        product += multiply(line)?;
+        product += multiply(line);
     }
 
     println!("product is: {}", product)
 }
 
-fn multiply(input: &str) -> Option<i32> {
+fn multiply(input: &str) -> i32 {
     // find all regex matches for
     let re = Regex::new(r"mut\((\d{1,3})\,(\d{1,3})\)").unwrap();
 
     let mut results = vec![];
     for (_, [path, line_no, line]) in re.captures_iter(input).map(|c| c.extract()) {
-        results.push((path, line_no.parse::<u64>()?, line));
+        results.push((path, line_no.parse::<u64>(), line));
     }
 
     for result in results {
-        dbg!(result)
+        dbg!(result);
     }
 
-    return Option<0>;
+    return 0;
 }
 
 #[cfg(test)]
