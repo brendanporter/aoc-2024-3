@@ -11,6 +11,9 @@ fn main() {
 
     let mut product: i32 = 0;
 
+    contents =
+        "xmul(2,4)%&mul[3,7]!@^do_not_mul(5,5)+mul(32,64]then(mul(11,8)mul(8,5))".to_string();
+
     for line in contents.lines() {
         product += multiply(line);
     }
@@ -23,9 +26,13 @@ fn multiply(input: &str) -> i32 {
     let re = Regex::new(r"mut\((\d{1,3})\,(\d{1,3})\)").unwrap();
 
     let mut results = vec![];
-    for (_, [path, line_no, line]) in re.captures_iter(input).map(|c| c.extract()) {
-        results.push((path, line_no.parse::<u64>().unwrap(), line));
+    for (_, [num1, num2]) in re.captures_iter(input).map(|c| c.extract()) {
+        dbg!(num1);
+        dbg!(num2);
+        results.push((num1, num2));
     }
+
+    dbg!(&results);
 
     for result in results {
         dbg!(result);
