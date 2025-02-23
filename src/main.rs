@@ -23,14 +23,23 @@ fn main() {
 
 fn multiply(input: &str) -> i32 {
     // find all regex matches for
-    let re = Regex::new(r"mul\((\d{1,3})\,(\d{1,3})\)").unwrap();
+    let re = Regex::new(r"(don't|do)()|mul\((\d{1,3})\,(\d{1,3})\)").unwrap();
 
     // let mut results = vec![];
     let mut product: i32 = 0;
-    for (_, [num1, num2]) in re.captures_iter(input).map(|c| c.extract()) {
+    let mut execute: bool = true;
+    for (_, [m1, m2]) in re.captures_iter(input).map(|c| c.extract()) {
         // dbg!(num1);
         // dbg!(num2);
-        product += num1.parse::<i32>().unwrap() * num2.parse::<i32>().unwrap();
+        if m1 == "don't" {
+            execute = false
+        }
+        if m1 == "do" {
+            execute = true
+        }
+        if execute && m1 != "do" && m1 != "don't" && m1 != "" && m2 != "" {
+            product += m1.parse::<i32>().unwrap() * m2.parse::<i32>().unwrap();
+        }
         // results.push((num1, num2));
     }
 
@@ -44,9 +53,13 @@ mod tests {
     use super::*;
     #[test]
     fn safe() {
+        // assert_eq!(
+        //     multiply("xmul(2,4)%&mul[3,7]!@^do_not_mul(5,5)+mul(32,64]then(mul(11,8)mul(8,5))"),
+        //     161
+        // );
         assert_eq!(
             multiply("xmul(2,4)%&mul[3,7]!@^do_not_mul(5,5)+mul(32,64]then(mul(11,8)mul(8,5))"),
-            161
+            48
         );
     }
 }
